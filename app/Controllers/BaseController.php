@@ -43,8 +43,15 @@ abstract class BaseController extends Controller
      *
      * @var string
      */
-    protected $base_url = ENVIRONMENT == 'development' ? 'http://localhost/ci4_first'
+    protected $base_url = ENVIRONMENT == 'development' ? 'http://localhost/ci4_adminweb'
         : (ENVIRONMENT == 'testing' ? 'http://dev.domain.com/ci4/...' : 'https://domain.com/ci4/...');
+
+    /**
+     * auth redirect url
+     *
+     * @var string
+     */
+    protected $auth_redirect;
 
     /**
      * assets path
@@ -60,6 +67,11 @@ abstract class BaseController extends Controller
      */
     protected $git_assets = ENVIRONMENT == 'development' ? '/../../../assets/'
         : (ENVIRONMENT == 'testing' ? '/../../../../../assets/' : '/../../../../assets/');
+
+    protected $auth_key_session = 'DSaw4aK';
+    protected $user_session     = 'DSaw4iU';
+    protected $encryption_key   = 'a4jJdsikR9owkIIdslK0OekkdlPaA3eF';
+    protected $session_prefix = ENVIRONMENT == 'production' ? '__Secure-' : '__m-';
 
     /**
      * default data for views
@@ -107,7 +119,7 @@ abstract class BaseController extends Controller
                 'description'   => 'This landing page built base on Dhon Studio repository on Github.',
             ],
             'favicon'   => $this->assets . "img/icon.ico",
-            'title'     => 'My Landing Page by Dhon Studio',
+            'title'     => 'Admin Web by Dhon Studio',
 
             'email'     => 'admin@dhonstudio.com',
             'whatsapp'  => '62 877 00 8899 13',
@@ -128,5 +140,34 @@ abstract class BaseController extends Controller
         ]);
         $this->dhonhit->base_url = $this->base_url;
         $this->dhonrequest = $this->dhonhit->dhonrequest;
+        $this->dhonrequest->auth = $auth;
+
+        $this->auth_redirect = ENVIRONMENT == 'development'
+            ? "http://localhost/ci4_adminweb/auth"
+            : (ENVIRONMENT == 'testing' ? "http://dev.dhonstudio.com/ci4/sso"
+                : "https://dhonstudio.com/ci4/sso");
+
+        helper('cookie');
+
+        $this->key_cookie = get_cookie($this->session_prefix . $this->auth_key_session);
+        $this->user_cookie = get_cookie($this->session_prefix . $this->user_session);
+
+        if ($this->key_cookie && $this->user_cookie) {
+            $config         = new \Config\Encryption();
+            $config->key    = $this->encryption_key;
+            $config->driver = 'OpenSSL';
+            $encrypter      = \Config\Services::encrypter($config);
+
+            $auth_key       = $encrypter->decrypt($this->key_cookie);
+
+            $config         = new \Config\Encryption();
+            $config->key    = $auth_key;
+            $config->driver = 'OpenSSL';
+            $encrypter      = \Config\Services::encrypter($config);
+
+            $this->id_user  = $encrypter->decrypt($this->user_cookie);
+
+            $this->user     = $this->dhonrequest->get("webadmin/getUserById?id_user={$this->id_user}")['data'];
+        }
     }
 }

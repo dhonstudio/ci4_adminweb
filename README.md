@@ -2,7 +2,7 @@
 
 ## First Setup Framework
 
-Git Clone `https://github.com/dhonstudio/ci4_first.git`.
+Git Clone `https://github.com/dhonstudio/ci4_adminweb.git`.
 
 ## Setup Single System
 
