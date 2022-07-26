@@ -14,7 +14,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
-                            <form method="post" class="tm-login-form" action="<?= $base_url . '/login' ?>">
+                            <form method="post" class="tm-login-form" action="<?= $base_url . '/auth' ?>">
                                 <input hidden name="redirect" value="<?= $redirect ?>">
                                 <div class="form-group">
                                     <label for="username">Username</label>

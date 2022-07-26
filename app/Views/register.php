@@ -38,6 +38,11 @@
                                     </button>
                                 </div>
                             </form>
+                            <a href="<?= $base_url . '/auth' ?>">
+                                <button class="mt-5 btn btn-primary btn-block text-uppercase">
+                                    Login
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>

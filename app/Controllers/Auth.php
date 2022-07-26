@@ -13,24 +13,22 @@ class Auth extends BaseController
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
-
-        $this->dhonhit->collect();
     }
 
     public function index()
     {
-        if ($this->key_cookie !== null && $this->user_cookie !== null) return redirect()->to($this->base_url);
-
         $this->data['title']    = 'Login - ' . $this->data['title'];
-        $this->data['css']      = '
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-            <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/fontawesome.min.css">
-            <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/bootstrap.min.css">
-            <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/templatemo-style.css">
-        ';
         $this->data['redirect'] = $this->base_url;
 
-        return view('auth', $this->data);
+        return $this->_isLogin() ? redirect()->to($this->base_url) : view('auth', $this->data);
+    }
+
+    public function register()
+    {
+        $this->data['title']    = 'Register - ' . $this->data['title'];
+        $this->data['redirect'] = $this->auth_redirect;
+
+        return $this->_isLogin() ? redirect()->to($this->base_url) : view('register', $this->data);
     }
 
     public function login()
@@ -40,67 +38,46 @@ class Auth extends BaseController
         $password = $this->request->getPost('password');
 
         $user = $this->dhonrequest->get("webadmin/getUserByUsername?username={$username}")['data'];
-        if (empty($user))
-            return redirect()->to($this->base_url . '/auth');
-        else {
-            $result = password_verify($password, $user['password_hash']);
 
-            if ($result) {
-                $config         = new \Config\Encryption();
-                $config->key    = $this->encryption_key;
-                $config->driver = 'OpenSSL';
-                $encrypter      = \Config\Services::encrypter($config);
-                $auth_key       = $user['auth_key'];
-                $auth_key_enc   = $encrypter->encrypt($auth_key);
+        if ($user && password_verify($password, $user['password_hash'])) {
+            $config         = new \Config\Encryption();
+            $config->key    = $this->encryption_key;
+            $config->driver = 'OpenSSL';
+            $encrypter      = \Config\Services::encrypter($config);
+            $auth_key       = $user['auth_key'];
+            $auth_key_enc   = $encrypter->encrypt($auth_key);
 
-                $config         = new \Config\Encryption();
-                $config->key    = $auth_key;
-                $config->driver = 'OpenSSL';
-                $encrypter      = \Config\Services::encrypter($config);
-                $id_user        = $user['id_user'];
-                $id_user_enc    = $encrypter->encrypt($id_user);
+            $config         = new \Config\Encryption();
+            $config->key    = $auth_key;
+            $config->driver = 'OpenSSL';
+            $encrypter      = \Config\Services::encrypter($config);
+            $id_user        = $user['id_user'];
+            $id_user_enc    = $encrypter->encrypt($id_user);
 
-                $session_secure = ENVIRONMENT == 'production' ? true : false;
+            $session_secure = ENVIRONMENT == 'production' ? true : false;
 
-                return redirect()->to($redirect)->setCookie(
-                    $this->auth_key_session,
-                    $auth_key_enc,
-                    new DateTime('+52 week'),
-                    '',
-                    '/',
-                    $this->session_prefix,
-                    $session_secure,
-                    true,
-                    Cookie::SAMESITE_LAX
-                )->setCookie(
-                    $this->user_session,
-                    $id_user_enc,
-                    new DateTime('+52 week'),
-                    '',
-                    '/',
-                    $this->session_prefix,
-                    $session_secure,
-                    true,
-                    Cookie::SAMESITE_LAX
-                );
-            } else {
-                return redirect()->to($this->base_url . '/auth');
-            }
-        }
-    }
-
-    public function register()
-    {
-        $this->data['title']    = 'Register - ' . $this->data['title'];
-        $this->data['css']      = '
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-            <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/fontawesome.min.css">
-            <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/bootstrap.min.css">
-            <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/templatemo-style.css">
-        ';
-        $this->data['redirect'] = $this->base_url . '/auth';
-
-        return view('register', $this->data);
+            return redirect()->to($redirect)->setCookie(
+                $this->auth_key_session,
+                $auth_key_enc,
+                new DateTime('+52 week'),
+                '',
+                '/',
+                $this->session_prefix,
+                $session_secure,
+                true,
+                Cookie::SAMESITE_LAX
+            )->setCookie(
+                $this->user_session,
+                $id_user_enc,
+                new DateTime('+52 week'),
+                '',
+                '/',
+                $this->session_prefix,
+                $session_secure,
+                true,
+                Cookie::SAMESITE_LAX
+            );
+        } else return redirect()->to($this->auth_redirect);
     }
 
     public function add_user()
@@ -113,20 +90,18 @@ class Auth extends BaseController
         $password2  = $this->request->getPost('password2');
         $auth_key   = random_string('alnum', 32);
 
-        if ($password != $password2)
-            return redirect()->to($this->base_url . '/register');
-        else {
-            $user = $this->dhonrequest->get("webadmin/getUserByUsername?username={$username}")['data'];
-            if (empty($user))
-                $result = $this->dhonrequest->post("webadmin/insert", [
-                    "username"  => $username,
-                    "fullName"  => $fullName,
-                    "password_hash"  => $password,
-                    "auth_key"  => $auth_key,
-                ])['data'];
+        $user = $this->dhonrequest->get("webadmin/getUserByUsername?username={$username}")['data'];
 
-            return redirect()->to($this->base_url . '/auth');
-        }
+        if ($password == $password2 && empty($user)) {
+            $this->dhonrequest->post("webadmin/insert", [
+                "username"  => $username,
+                "fullName"  => $fullName,
+                "password_hash"  => $password,
+                "auth_key"  => $auth_key,
+            ])['data'];
+
+            return redirect()->to($this->auth_redirect);
+        } else return redirect()->to($this->base_url . '/register');
     }
 
     public function logout()
@@ -134,6 +109,6 @@ class Auth extends BaseController
         delete_cookie($this->session_prefix . $this->auth_key_session);
         delete_cookie($this->session_prefix . $this->user_session);
 
-        return redirect()->to($this->base_url . '/auth')->withCookies();
+        return redirect()->to($this->auth_redirect)->withCookies();
     }
 }

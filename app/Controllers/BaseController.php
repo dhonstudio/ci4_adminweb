@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Assets\Ci4_libraries\DhonHit;
+use Assets\Ci4_libraries\DhonRequest;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -39,60 +40,118 @@ abstract class BaseController extends Controller
     protected $helpers = [];
 
     /**
-     * baseurl
+     * Base URL.
      *
      * @var string
      */
-    protected $base_url = ENVIRONMENT == 'development' ? 'http://localhost/ci4_adminweb'
-        : (ENVIRONMENT == 'testing' ? 'http://dev.domain.com/ci4/...' : 'https://domain.com/ci4/...');
+    protected $base_url =
+    ENVIRONMENT == 'development' ? 'http://localhost/ci4_webadmin'
+        : (ENVIRONMENT == 'testing' ? 'http://dev.dhonstudio.com/ci4/webadmin'
+            : (ENVIRONMENT == 'production' ? 'https://dhonstudio.com/ci4/webadmin' : ''));
 
     /**
-     * auth redirect url
+     * Assets path.
      *
      * @var string
      */
-    protected $auth_redirect;
+    protected $assets =
+    ENVIRONMENT == 'development' ? 'http://localhost/assets/' // for development assets
+        : 'https://domain.com/assets/'; // for testing and production assets in cloud
 
     /**
-     * assets path
+     * Git assets path.
      *
      * @var string
      */
-    protected $assets = ENVIRONMENT == 'development' ? 'http://localhost/assets/' : 'https://domain.com/assets/';
+    protected $git_assets =
+    ENVIRONMENT == 'development' ? '/../../../assets/'
+        : (ENVIRONMENT == 'testing' ? '/../../../../../assets/'
+            : (ENVIRONMENT == 'production' ? '/../../../../assets/' : ''));
 
     /**
-     * git assets path
+     * API auth.
+     *
+     * @var string[]
+     */
+    protected $api_url = [
+        'development'   => 'http://localhost/ci4_api2/',
+        'testing'       => 'http://dev.dhonstudio.com/ci4/api2/',
+        'production'    => 'https://dhonstudio.com/ci4/api2/',
+    ];
+
+    /**
+     * API auth.
      *
      * @var string
      */
-    protected $git_assets = ENVIRONMENT == 'development' ? '/../../../assets/'
-        : (ENVIRONMENT == 'testing' ? '/../../../../../assets/' : '/../../../../assets/');
-
-    protected $auth_key_session = 'DSaw4aK';
-    protected $user_session     = 'DSaw4iU';
-    protected $encryption_key   = 'a4jJdsikR9owkIIdslK0OekkdlPaA3eF';
-    protected $session_prefix = ENVIRONMENT == 'production' ? '__Secure-' : '__m-';
+    protected $api_auth =
+    ENVIRONMENT == 'production' ? ['prod_username', 'prod_password'] // for production API
+        : ['dev_username', 'dev_password']; // for development and testing API
 
     /**
-     * default data for views
+     * Enabler/disabler page hit traffic.
      *
-     * @var mixed
+     * @var boolean
      */
-    protected $data;
+    protected $hit_traffic = false;
 
     /**
-     * for create hit page
+     * Dhon Studio library for create page hit traffic.
+     * Run `git clone https://github.com/dhonstudio/ci4_libraries.git` in your git assets path.
      *
      * @var DhonHit
      */
     protected $dhonhit;
 
     /**
-     * for connect API
+     * Dhon Studio library for connect API.
+     * Run `git clone https://github.com/dhonstudio/ci4_libraries.git` in your git assets path.
      *
      * @var DhonRequest
      */
     protected $dhonrequest;
+
+    /**
+     * Auth Key cookie session.
+     *
+     * @var string
+     */
+    protected $auth_key_session = 'DSwa4aK';
+
+    /**
+     * User cookie session.
+     *
+     * @var string
+     */
+    protected $user_session     = 'DSwa4iU';
+
+    /**
+     * Encryption key.
+     *
+     * @var string
+     */
+    protected $encryption_key   = 'a4jJdsikR9owkIIdslK0OekkdlPaA3eF';
+
+    /**
+     * Cookie session prefix.
+     *
+     * @var string
+     */
+    protected $session_prefix = ENVIRONMENT == 'production' ? '__Secure-' : '__m-';
+
+    /**
+     * Auth redirect URL.
+     *
+     * @var string
+     */
+    protected $auth_redirect;
+
+    /**
+     * Default data for Views.
+     *
+     * @var mixed
+     */
+    protected $data;
 
     /**
      * Constructor.
@@ -110,43 +169,66 @@ abstract class BaseController extends Controller
             'base_url'  => $this->base_url,
             'assets'    => $this->assets,
 
-            'lang'      => null,
+            'lang'      => null, // default is `en`
             'meta'      => [
                 'keywords'      => 'dhon studio, dhonstudio, dhonstudio.com',
                 'author'        => null,
                 'generator'     => null,
-                'ogimage'       => null,
+                'ogimage'       => $this->assets . 'img/ogimg.jpg',
                 'description'   => 'This landing page built base on Dhon Studio repository on Github.',
             ],
             'favicon'   => $this->assets . "img/icon.ico",
-            'title'     => 'Admin Web by Dhon Studio',
+            'title'     => 'Admin Web by Dhon Studio', // default is `Home`
 
-            'email'     => 'admin@dhonstudio.com',
-            'whatsapp'  => '62 877 00 8899 13',
-            'whatsapp_link'  => 'https://wa.me/6287700889913',
-            'github'    => 'https://github.com/dhonstudio',
-            'instagram' => 'https://instagram.com/dhonstudio',
+            'email'         => 'admin@dhonstudio.com',
+            'whatsapp'      => '62 877 00 8899 13',
+            'whatsapp_link' => 'https://wa.me/6287700889913',
+            'github'        => 'https://github.com/dhonstudio',
+            'instagram'     => 'https://instagram.com/dhonstudio',
+
+            'css' => '
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+                <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/fontawesome.min.css">
+                <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/bootstrap.min.css">
+                <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/templatemo-style.css">
+            ',
         ];
 
-        require __DIR__ . $this->git_assets . 'ci4_libraries/DhonHit.php';
-        $auth = ENVIRONMENT == 'production' ? ['prod_username', 'prod_password'] : ['dev_username', 'dev_password'];
-        $this->dhonhit = new DhonHit([
-            'api_url'   => [
-                'development'   => 'http://localhost/ci4_api2/',
-                'testing'       => 'http://dev.domain.com/ci4/service/',
-                'production'    => 'https://domain.com/ci4/service/',
-            ],
-            'auth'      => $auth,
-        ]);
-        $this->dhonhit->base_url = $this->base_url;
-        $this->dhonrequest = $this->dhonhit->dhonrequest;
-        $this->dhonrequest->auth = $auth;
+        $this->auth_redirect    = $this->base_url . "/auth";
+        $api_get_user           = "webadmin/getUserById?id_user=";
 
-        $this->auth_redirect = ENVIRONMENT == 'development'
-            ? "http://localhost/ci4_adminweb/auth"
-            : (ENVIRONMENT == 'testing' ? "http://dev.dhonstudio.com/ci4/sso"
-                : "https://dhonstudio.com/ci4/sso");
+        $this->_detectHit();
+        $this->_checkCookie($api_get_user);
+    }
 
+    /**
+     * Detect page hit traffic.
+     */
+    private function _detectHit()
+    {
+        if ($this->hit_traffic) {
+            require __DIR__ . $this->git_assets . 'ci4_libraries/DhonHit.php';
+
+            $this->dhonhit = new DhonHit([
+                'api_url'   => $this->api_url,
+                'auth'      => $this->api_auth,
+            ]);
+            $this->dhonhit->base_url = $this->base_url;
+            $this->dhonhit->collect();
+
+            $this->dhonrequest = $this->dhonhit->dhonrequest;
+        } else {
+            require __DIR__ . $this->git_assets . 'ci4_libraries/DhonRequest.php';
+            $this->dhonrequest          = new DhonRequest();
+            $this->dhonrequest->api_url = $this->api_url;
+        }
+    }
+
+    /**
+     * Check cookie session.
+     */
+    private function _checkCookie(string $api_get_user)
+    {
         helper('cookie');
 
         $this->key_cookie = get_cookie($this->session_prefix . $this->auth_key_session);
@@ -167,7 +249,15 @@ abstract class BaseController extends Controller
 
             $this->id_user  = $encrypter->decrypt($this->user_cookie);
 
-            $this->user     = $this->dhonrequest->get("webadmin/getUserById?id_user={$this->id_user}")['data'];
+            $this->user     = $this->dhonrequest->get($api_get_user . $this->id_user)['data'];
         }
+    }
+
+    /**
+     * Check whether any user logon.
+     */
+    public function _isLogin()
+    {
+        return $this->key_cookie !== null && $this->user_cookie !== null;
     }
 }
