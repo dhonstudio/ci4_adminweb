@@ -177,6 +177,8 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
 
+        helper('text');
+
         $this->auth_redirect    = $this->base_url . "/auth";
         $api_get_user           = "webadmin/getUserById?id_user=";
 
@@ -184,10 +186,11 @@ abstract class BaseController extends Controller
         $this->_checkCookie($api_get_user);
 
         $this->data = [
-            'base_url'  => $this->base_url,
-            'assets'    => $this->assets,
-            'id_user'   => $this->id_user,
-            'user'      => $this->user,
+            'base_url'      => $this->base_url,
+            'assets'        => $this->assets,
+            'git_assets'    => $this->git_assets,
+            'id_user'       => $this->id_user,
+            'user'          => $this->user,
 
             'lang'      => null, // default is `en`
             'meta'      => [

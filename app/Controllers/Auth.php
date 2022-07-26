@@ -82,8 +82,6 @@ class Auth extends BaseController
 
     public function add_user()
     {
-        helper('text');
-
         $username   = $this->request->getPost('username');
         $fullName   = $this->request->getPost('fullName');
         $password   = $this->request->getPost('password');
