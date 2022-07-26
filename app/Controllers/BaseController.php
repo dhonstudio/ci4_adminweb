@@ -140,6 +140,18 @@ abstract class BaseController extends Controller
     protected $session_prefix = ENVIRONMENT == 'production' ? '__Secure-' : '__m-';
 
     /**
+     * Id user.
+     *
+     * @var int
+     */
+    protected $id_user = 0;
+
+    /**
+     * User.
+     */
+    protected $user;
+
+    /**
      * Auth redirect URL.
      *
      * @var string
@@ -165,9 +177,17 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
 
+        $this->auth_redirect    = $this->base_url . "/auth";
+        $api_get_user           = "webadmin/getUserById?id_user=";
+
+        $this->_detectHit();
+        $this->_checkCookie($api_get_user);
+
         $this->data = [
             'base_url'  => $this->base_url,
             'assets'    => $this->assets,
+            'id_user'   => $this->id_user,
+            'user'      => $this->user,
 
             'lang'      => null, // default is `en`
             'meta'      => [
@@ -193,12 +213,6 @@ abstract class BaseController extends Controller
                 <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/templatemo-style.css">
             ',
         ];
-
-        $this->auth_redirect    = $this->base_url . "/auth";
-        $api_get_user           = "webadmin/getUserById?id_user=";
-
-        $this->_detectHit();
-        $this->_checkCookie($api_get_user);
     }
 
     /**

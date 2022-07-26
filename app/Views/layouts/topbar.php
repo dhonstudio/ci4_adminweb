@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto h-100">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">
+                    <a class="nav-link <?= $page == 'Dashboard' ? 'active' : '' ?>" href="#">
                         <i class="fas fa-tachometer-alt"></i>
                         Dashboard
                         <span class="sr-only">(current)</span>
@@ -31,9 +31,9 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="products.html">
-                        <i class="fas fa-shopping-cart"></i>
-                        Products
+                    <a class="nav-link <?= $page == 'Content' ? 'active' : '' ?>" href="<?= $base_url . '/content' ?>">
+                        <i class="fas fa-window-restore"></i>
+                        Content
                     </a>
                 </li>
 
@@ -60,7 +60,15 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link d-block" href="<?= $base_url . '/logout' ?>">
-                        Admin, <b>Logout</b>
+                        <?php
+                        $words = explode(" ", $user['fullName']);
+                        $acronym = "";
+
+                        foreach ($words as $w) {
+                            $acronym .= mb_substr($w, 0, 1);
+                        }
+                        ?>
+                        <?= strlen($user['fullName']) <= 15 ? $user['fullName'] : $acronym ?>, <b>Logout</b>
                     </a>
                 </li>
             </ul>

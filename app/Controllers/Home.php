@@ -15,6 +15,15 @@ class Home extends BaseController
 
     public function index()
     {
+        $this->data['page'] = 'Dashboard';
+
         return $this->_isLogin() ? view('home', $this->data) : redirect()->to($this->auth_redirect);
+    }
+
+    public function content()
+    {
+        $this->data['page'] = 'Content';
+
+        return $this->_isLogin() ? view('content', $this->data) : redirect()->to($this->auth_redirect);
     }
 }
