@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/template'); ?>
+<?= $this->extend($git_assets . 'ci4_views/template'); ?>
 
 <?= $this->section('content'); ?>
 
@@ -14,7 +14,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
-                            <form method="post" class="tm-login-form" action="<?= $base_url . '/register' ?>">
+                            <form method="post" class="tm-login-form" action="<?= base_url('register') ?>">
                                 <input hidden name="redirect" value="<?= $redirect ?>">
                                 <div class="form-group">
                                     <label for="username">Username</label>
@@ -38,7 +38,7 @@
                                     </button>
                                 </div>
                             </form>
-                            <a href="<?= $base_url . '/auth' ?>">
+                            <a href="<?= base_url('auth') ?>">
                                 <button class="mt-5 btn btn-primary btn-block text-uppercase">
                                     Login
                                 </button>

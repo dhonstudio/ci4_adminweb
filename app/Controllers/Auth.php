@@ -18,9 +18,9 @@ class Auth extends BaseController
     public function index()
     {
         $this->data['title']    = 'Login - ' . $this->data['title'];
-        $this->data['redirect'] = $this->base_url;
+        $this->data['redirect'] = base_url();
 
-        return $this->_isLogin() ? redirect()->to($this->base_url) : view('auth', $this->data);
+        return $this->_isLogin() ? redirect()->to(base_url()) : view('auth', $this->data);
     }
 
     public function register()
@@ -28,7 +28,7 @@ class Auth extends BaseController
         $this->data['title']    = 'Register - ' . $this->data['title'];
         $this->data['redirect'] = $this->auth_redirect;
 
-        return $this->_isLogin() ? redirect()->to($this->base_url) : view('register', $this->data);
+        return $this->_isLogin() ? redirect()->to(base_url()) : view('register', $this->data);
     }
 
     public function login()
@@ -67,7 +67,7 @@ class Auth extends BaseController
                 true,
                 Cookie::SAMESITE_LAX
             )->setCookie(
-                $this->user_session,
+                $this->id_user_session,
                 $id_user_enc,
                 new DateTime('+52 week'),
                 '',
@@ -99,13 +99,13 @@ class Auth extends BaseController
             ])['data'];
 
             return redirect()->to($this->auth_redirect);
-        } else return redirect()->to($this->base_url . '/register');
+        } else return redirect()->to(base_url() . '/register');
     }
 
     public function logout()
     {
         delete_cookie($this->session_prefix . $this->auth_key_session);
-        delete_cookie($this->session_prefix . $this->user_session);
+        delete_cookie($this->session_prefix . $this->id_user_session);
 
         return redirect()->to($this->auth_redirect)->withCookies();
     }

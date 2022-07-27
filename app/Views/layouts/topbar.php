@@ -31,7 +31,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'Content' ? 'active' : '' ?>" href="<?= $base_url . '/content' ?>">
+                    <a class="nav-link <?= $page == 'Content' ? 'active' : '' ?>" href="<?= base_url('content') ?>">
                         <i class="fas fa-window-restore"></i>
                         Content
                     </a>
@@ -59,7 +59,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link d-block" href="<?= $base_url . '/logout' ?>">
+                    <a class="nav-link d-block" href="<?= base_url('logout') ?>">
                         <?php
                         $words = explode(" ", $user['fullName']);
                         $acronym = "";

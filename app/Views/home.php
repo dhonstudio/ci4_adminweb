@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/template'); ?>
+<?= $this->extend($git_assets . 'ci4_views/template'); ?>
 
 <?= $this->section('content'); ?>
 
