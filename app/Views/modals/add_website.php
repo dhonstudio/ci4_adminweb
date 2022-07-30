@@ -34,24 +34,24 @@
 <script>
     $("#addWebsiteForm")
         .submit(function(event) {
-                event.preventDefault();
+            event.preventDefault();
 
-                var $form = $(this);
-                var serializedData = $form.serialize();
+            var $form = $(this);
+            var serializedData = $form.serialize();
 
-                if ($('#keyInput').val() > 0)
-                    var url = '<?= base_url('edit_transaction') ?>';
-                else
-                    var url = '<?= base_url('add_website') ?>';
+            if ($('#keyInput').val() > 0)
+                var url = '<?= base_url('edit_transaction') ?>';
+            else
+                var url = '<?= base_url('add_website') ?>';
 
-                $.ajax({
-                        url: url,
-                        type: 'post',
-                        data: serializedData,
-                        success: function() {
-                            $('#addWebsiteModal').modal('hide');
-                            $("#websiteList").load('<?= base_url() ?> + "/website_list");
-                            }
-                        });
-                });
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: serializedData,
+                success: function() {
+                    $('#addWebsiteModal').modal('hide');
+                    $("#websiteList").load('<?= base_url() ?>' + "/website_list");
+                }
+            });
+        });
 </script>

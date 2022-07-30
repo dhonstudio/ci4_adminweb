@@ -14,8 +14,8 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
+
                             <form method="post" class="tm-login-form" action="<?= base_url('auth') ?>">
-                                <input hidden name="redirect" value="<?= $redirect ?>">
                                 <div class="form-group">
                                     <label for="username">Username</label>
                                     <input name="username" type="text" class="form-control validate" id="username" value="" required />
@@ -30,6 +30,7 @@
                                     </button>
                                 </div>
                             </form>
+
                             <a href="<?= base_url('register') ?>">
                                 <button class="mt-5 btn btn-primary btn-block text-uppercase">
                                     Register
@@ -41,19 +42,8 @@
             </div>
         </div>
     </div>
-    <footer class="tm-footer row tm-mt-small">
-        <div class="col-12 font-weight-light">
-            <p class="text-center text-white mb-0 px-4 small">
-                Copyright &copy; <b>2022</b> All rights reserved.
 
-                Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
-            </p>
-        </div>
-    </footer>
-    <script src="<?= $assets . 'vendor/templatemo_524_product_admin/' ?>js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
-    <script src="<?= $assets . 'vendor/templatemo_524_product_admin/' ?>js/bootstrap.min.js"></script>
-    <!-- https://getbootstrap.com/ -->
+    <?= $this->include('layouts/footer'); ?>
 </body>
 
 <?= $this->endSection(); ?>

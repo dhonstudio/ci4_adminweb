@@ -15,25 +15,8 @@ class Auth extends BaseController
         parent::initController($request, $response, $logger);
     }
 
-    public function index()
-    {
-        $this->data['title']    = 'Login - ' . $this->data['title'];
-        $this->data['redirect'] = base_url();
-
-        return $this->_isLogin() ? redirect()->to(base_url()) : view('auth', $this->data);
-    }
-
-    public function register()
-    {
-        $this->data['title']    = 'Register - ' . $this->data['title'];
-        $this->data['redirect'] = $this->auth_redirect;
-
-        return $this->_isLogin() ? redirect()->to(base_url()) : view('register', $this->data);
-    }
-
     public function login()
     {
-        $redirect = $this->request->getPost('redirect');
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
@@ -56,7 +39,7 @@ class Auth extends BaseController
 
             $session_secure = ENVIRONMENT == 'production' ? true : false;
 
-            return redirect()->to($redirect)->setCookie(
+            return redirect()->to(base_url())->setCookie(
                 $this->auth_key_session,
                 $auth_key_enc,
                 new DateTime('+52 week'),
@@ -80,7 +63,7 @@ class Auth extends BaseController
         } else return redirect()->to($this->auth_redirect);
     }
 
-    public function add_user()
+    public function register()
     {
         $username   = $this->request->getPost('username');
         $fullName   = $this->request->getPost('fullName');
@@ -100,13 +83,5 @@ class Auth extends BaseController
 
             return redirect()->to($this->auth_redirect);
         } else return redirect()->to(base_url() . '/register');
-    }
-
-    public function logout()
-    {
-        delete_cookie($this->session_prefix . $this->auth_key_session);
-        delete_cookie($this->session_prefix . $this->id_user_session);
-
-        return redirect()->to($this->auth_redirect)->withCookies();
     }
 }
