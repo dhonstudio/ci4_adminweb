@@ -1,3 +1,7 @@
+# Main Features
+
+You can see the features in [Features](./Features.md)
+
 # CodeIgniter 4 Framework
 
 ## What is CodeIgniter?
