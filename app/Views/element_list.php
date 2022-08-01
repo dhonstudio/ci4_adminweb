@@ -23,7 +23,16 @@
 
             $('#addContentModalLabel').html("Edit Element");
             $('#keyInput').val(key + 1);
-            $('#contentName').html(data[key].contentName);
-            $('#contentValueInput').val(data[key].contentValue);
+            if (data[key].contentValue.length > 58) {
+                $('#contentInputSection').html(`
+                    <label for="contentValueInput" id="contentName">` + data[key].contentName + `</label>
+                    <textarea rows="5" id="contentValueInput" name="contentValue" type="text" class="form-control validate" required >` + data[key].contentValue + `</textarea>
+                `);
+            } else {
+                $('#contentInputSection').html(`
+                    <label for="contentValueInput" id="contentName">` + data[key].contentName + `</label>
+                    <input id="contentValueInput" name="contentValue" type="text" class="form-control validate" required value="` + data[key].contentValue + `" />
+                `);
+            }
         });
 </script>

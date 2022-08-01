@@ -15,7 +15,7 @@
                             <input hidden name="key" id="keyInput">
 
                             <!-- contentValue -->
-                            <div class="form-group mb-3 ui-widget">
+                            <div class="form-group mb-3 ui-widget" id="contentInputSection">
                                 <label for="contentValueInput" id="contentName"></label>
                                 <input id="contentValueInput" name="contentValue" type="text" class="form-control validate" required />
                             </div>
