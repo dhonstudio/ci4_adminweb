@@ -23,12 +23,12 @@ class Home extends BaseController
 
     private function _initWebsite()
     {
-        $this->data['websiteList'] = $this->dhonrequest->get("landingpageweb/getAllByUser?id_user={$this->id_user}sort_by=created_at&sort_method=DESC")['data'];
+        $this->data['websiteList'] = $this->dhonrequest->get("landingpageweb/getAllByUser?id_user={$this->id_user}&sort_by=created_at&sort_method=DESC")['data'];
     }
 
-    private function _initElement()
+    private function _initElement($webKey)
     {
-        $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAll?sort_by=contentName&sort_method=ASC")['data'];
+        $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAllByKey?webKey={$webKey}&sort_by=contentName&sort_method=ASC")['data'];
     }
 
     public function content()
@@ -52,13 +52,24 @@ class Home extends BaseController
 
     public function element($webKey)
     {
+        $web = $this->dhonrequest->get("landingpageweb/getByKey?webKey={$webKey}")['data'];
+
         $this->data['page']     = 'Content';
-        $this->data['title']    = 'Element - ' . $this->data['title'];
+        $this->data['title']    = $web['webName'] . ' Element - ' . $this->data['title'];
         $this->data['css']      = $this->data['css'] . '
             <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         ';
-        $this->_initElement();
+
+        $this->data['webKey']   = $webKey;
+        $this->_initElement($webKey);
 
         return $this->_isLogin() ? view('element', $this->data) : redirect()->to($this->auth_redirect);
+    }
+
+    public function element_list($webKey)
+    {
+        $this->_initElement($webKey);
+
+        return view('element_list', $this->data);
     }
 }

@@ -9,7 +9,7 @@
         <div class="row tm-content-row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
                 <div class="tm-bg-primary-dark tm-block tm-block-products">
-                    <a href="#" class="btn btn-primary btn-block text-uppercase mb-3" id="addWebsiteButton" data-toggle="modal" data-target="#addWebsiteModal">Add Website</a>
+                    <!-- <a href="#" class="btn btn-primary btn-block text-uppercase mb-3" id="addWebsiteButton" data-toggle="modal" data-target="#addWebsiteModal">Add Website</a> -->
 
                     <?= $this->include('modals/add_website'); ?>
 

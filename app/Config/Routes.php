@@ -48,8 +48,10 @@ $routes->get('/content', 'Home::content');
 $routes->get('/element/(:segment)', 'Home::element/$1');
 
 $routes->get('/website_list', 'Home::website_list');
+$routes->get('/element_list/(:segment)', 'Home::element_list/$1');
 
 $routes->post('/add_website', 'Content::add_website');
+$routes->post('/edit_content', 'Content::edit_content');
 
 /*
  * --------------------------------------------------------------------

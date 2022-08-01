@@ -22,4 +22,18 @@ class Content extends BaseController
             'webName' => $this->request->getPost('websiteName'),
         ]);
     }
+
+    public function edit_content()
+    {
+        $key = $this->request->getPost('key') - 1;
+
+        $content = $this->dhonrequest->get("landingpagecontent/getAll")['data'][$key];
+
+        $this->dhonrequest->post('landingpagecontent/edit', [
+            'id_content' => $content['id_content'],
+            'webKey' => $content['webKey'],
+            'contentName' => $content['contentName'],
+            'contentValue' => $this->request->getPost('contentValue'),
+        ]);
+    }
 }
