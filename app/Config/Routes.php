@@ -45,6 +45,7 @@ $routes->get('/logout', 'Auth::logout');
 
 $routes->get('/', 'Home::index');
 $routes->get('/content', 'Home::content');
+$routes->get('/element/(:segment)', 'Home::element/$1');
 
 $routes->get('/website_list', 'Home::website_list');
 

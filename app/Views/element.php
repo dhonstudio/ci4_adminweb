@@ -11,7 +11,7 @@
                 <div class="tm-bg-primary-dark tm-block tm-block-products">
                     <a href="#" class="btn btn-primary btn-block text-uppercase mb-3" id="addWebsiteButton" data-toggle="modal" data-target="#addWebsiteModal">Add Website</a>
 
-                    <?= $this->include('modals/add_website'); ?>
+                    <?= $this->include('modals/add_element'); ?>
 
                     <div class="tm-product-table-container">
                         <table class="table table-hover tm-table-small tm-product-table">
@@ -21,8 +21,8 @@
                                     <th scope="col">DATE CREATED</th>
                                 </tr>
                             </thead>
-                            <tbody id="websiteList">
-                                <?= $this->include('website_list'); ?>
+                            <tbody id="elementList">
+                                <?= $this->include('element_list'); ?>
                             </tbody>
                         </table>
                     </div>
