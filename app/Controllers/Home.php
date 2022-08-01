@@ -35,7 +35,7 @@ class Home extends BaseController
 
     private function _initWebsite()
     {
-        $this->data['websiteList'] = $this->dhonrequest->get("landingpageweb/getAll")['data'];
+        $this->data['websiteList'] = $this->dhonrequest->get("landingpageweb/getAll?sort_by=created_at&sort_method=DESC")['data'];
     }
 
     public function website_list()

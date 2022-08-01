@@ -45,6 +45,7 @@ $routes->get('/logout', 'Auth::logout');
 
 $routes->get('/', 'Home::index');
 $routes->get('/content', 'Home::content');
+
 $routes->get('/website_list', 'Home::website_list');
 
 $routes->post('/add_website', 'Content::add_website');
