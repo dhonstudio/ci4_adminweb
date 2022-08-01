@@ -65,7 +65,7 @@ abstract class BaseController extends Controller
      *
      * @var string[]
      */
-    protected $api_auth = ['dev_username', 'dev_password'];
+    protected $api_auth = ['admin', 'admin'];
 
     /**
      * Enabler page hit traffic.
@@ -217,17 +217,6 @@ abstract class BaseController extends Controller
     }
 
     /**
-     * Initialize additional data.
-     */
-    private function _initData()
-    {
-        $this->data['assets']       = $this->assets;
-        $this->data['git_assets']   = $this->git_assets;
-        $this->data['id_user']      = $this->id_user;
-        $this->data['user']         = $this->user;
-    }
-
-    /**
      * Check cookie session.
      */
     private function _checkCookie(string $api_get_user)
@@ -254,6 +243,17 @@ abstract class BaseController extends Controller
 
             $this->user     = $this->dhonrequest->get($api_get_user . $this->id_user)['data'];
         }
+    }
+
+    /**
+     * Initialize additional data.
+     */
+    private function _initData()
+    {
+        $this->data['assets']       = $this->assets;
+        $this->data['git_assets']   = $this->git_assets;
+        $this->data['id_user']      = $this->id_user;
+        $this->data['user']         = $this->user;
     }
 
     /**

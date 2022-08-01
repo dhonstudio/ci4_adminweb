@@ -84,4 +84,12 @@ class Auth extends BaseController
             return redirect()->to($this->auth_redirect);
         } else return redirect()->to(base_url() . '/register');
     }
+
+    public function logout()
+    {
+        delete_cookie($this->session_prefix . $this->auth_key_session);
+        delete_cookie($this->session_prefix . $this->id_user_session);
+
+        return redirect()->to($this->auth_redirect)->withCookies();
+    }
 }

@@ -41,15 +41,13 @@ $routes->post('/register', 'Auth::register');
 $routes->get('/auth', 'AuthInterface::index');
 $routes->post('/auth', 'Auth::login');
 
+$routes->get('/logout', 'Auth::logout');
+
 $routes->get('/', 'Home::index');
 $routes->get('/content', 'Home::content');
 $routes->get('/website_list', 'Home::website_list');
 
 $routes->post('/add_website', 'Content::add_website');
-
-
-
-$routes->get('/logout', 'Auth::logout');
 
 /*
  * --------------------------------------------------------------------
