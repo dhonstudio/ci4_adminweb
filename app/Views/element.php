@@ -18,7 +18,7 @@
                                 <tr>
                                     <th scope="col">ELEMENT NAME</th>
                                     <th scope="col">VALUE</th>
-                                    <th scope="col">DATE CREATED</th>
+                                    <th scope="col">DATE MODIFIED</th>
                                     <th></th>
                                 </tr>
                             </thead>
