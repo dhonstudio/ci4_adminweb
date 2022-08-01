@@ -59,7 +59,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link d-block" href="<?= base_url('logout') ?>">
+                    <a class="nav-link d-block" href="<?= base_url('logout') ?>" title="Logout from <?= $user['fullName'] ?>">
                         <?php
                         $words = explode(" ", $user['fullName']);
                         $acronym = "";
