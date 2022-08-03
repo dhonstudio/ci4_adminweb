@@ -28,7 +28,7 @@ class Home extends BaseController
 
     private function _initElement($webKey)
     {
-        $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAllByKey?webKey={$webKey}&sort_by=contentName&sort_method=ASC")['data'];
+        $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAllByKey?webKey={$webKey}&sort_by=id_content&sort_method=ASC")['data'];
     }
 
     public function content()
