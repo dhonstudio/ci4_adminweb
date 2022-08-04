@@ -190,6 +190,7 @@ abstract class BaseController extends Controller
                 <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/fontawesome.min.css">
                 <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/bootstrap.min.css">
                 <link rel="stylesheet" href="' . $this->assets . 'vendor/templatemo_524_product_admin/css/templatemo-style.css">
+                <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
             ',
         ];
 

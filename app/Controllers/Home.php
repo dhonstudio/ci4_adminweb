@@ -35,9 +35,6 @@ class Home extends BaseController
     {
         $this->data['page']     = 'Content';
         $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
-        $this->data['css']      = $this->data['css'] . '
-            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-        ';
         $this->_initWebsite();
 
         return $this->_isLogin() ? view('content', $this->data) : redirect()->to($this->auth_redirect);
@@ -56,9 +53,6 @@ class Home extends BaseController
 
         $this->data['page']     = 'Content';
         $this->data['title']    = $web['webName'] . ' Element - ' . $this->data['title'];
-        $this->data['css']      = $this->data['css'] . '
-            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-        ';
 
         $this->data['webKey']   = $webKey;
         $this->_initElement($webKey);

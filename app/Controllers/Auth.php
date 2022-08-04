@@ -22,7 +22,7 @@ class Auth extends BaseController
 
         $user = $this->dhonrequest->get("webadmin/getUserByUsername?username={$username}")['data'];
 
-        if ($user && password_verify($password, $user['password_hash'])) {
+        if ($user && $user['status'] > 9 && password_verify($password, $user['password_hash'])) {
             $config         = new \Config\Encryption();
             $config->key    = $this->encryption_key;
             $config->driver = 'OpenSSL';
@@ -39,28 +39,13 @@ class Auth extends BaseController
 
             $session_secure = ENVIRONMENT == 'production' ? true : false;
 
-            return redirect()->to(base_url())->setCookie(
-                $this->auth_key_session,
-                $auth_key_enc,
-                new DateTime('+52 week'),
-                '',
-                '/',
-                $this->session_prefix,
-                $session_secure,
-                true,
-                Cookie::SAMESITE_LAX
-            )->setCookie(
-                $this->id_user_session,
-                $id_user_enc,
-                new DateTime('+52 week'),
-                '',
-                '/',
-                $this->session_prefix,
-                $session_secure,
-                true,
-                Cookie::SAMESITE_LAX
-            );
-        } else return redirect()->to($this->auth_redirect);
+            set_cookie($this->auth_key_session, $auth_key_enc, 365 * 24 * 60 * 60, '', '/', $this->session_prefix, $session_secure, true, Cookie::SAMESITE_LAX);
+            set_cookie($this->id_user_session, $id_user_enc, 365 * 24 * 60 * 60, '', '/', $this->session_prefix, $session_secure, true, Cookie::SAMESITE_LAX);
+
+            echo json_encode(['code' => 1, 'message' => 'Login success']);
+        } else {
+            echo json_encode(['code' => 0, 'message' => 'Login failed']);
+        }
     }
 
     public function register()
@@ -79,10 +64,12 @@ class Auth extends BaseController
                 "fullName"  => $fullName,
                 "password_hash"  => $password,
                 "auth_key"  => $auth_key,
-            ])['data'];
-
-            return redirect()->to($this->auth_redirect);
-        } else return redirect()->to(base_url() . '/register');
+                "status"    => 9
+            ]);
+            echo json_encode(['code' => 1, 'message' => 'Successfully registered']);
+        } else {
+            echo json_encode(['code' => 0, 'message' => 'Failed, username is already registered']);
+        }
     }
 
     public function logout()
