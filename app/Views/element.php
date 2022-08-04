@@ -16,6 +16,7 @@
                         <table class="table table-hover tm-table-small tm-product-table">
                             <thead>
                                 <tr>
+                                    <th scope="col">&nbsp;</th>
                                     <th scope="col">ELEMENT NAME</th>
                                     <th scope="col">VALUE</th>
                                     <th scope="col">DATE MODIFIED</th>

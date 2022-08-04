@@ -23,7 +23,9 @@ class Home extends BaseController
 
     private function _initWebsite()
     {
-        $this->data['websiteList'] = $this->dhonrequest->get("landingpageweb/getAllByUser?id_user={$this->id_user}&sort_by=created_at&sort_method=DESC")['data'];
+        $websiteList = $this->user['status'] == '11' ? $this->dhonrequest->get("landingpageweb/getAll?sort_by=created_at&sort_method=DESC")['data'] : $this->dhonrequest->get("landingpageweb/getAllByUser?id_user={$this->id_user}&sort_by=created_at&sort_method=DESC")['data'];
+
+        $this->data['websiteList'] = $websiteList;
     }
 
     private function _initElement($webKey)

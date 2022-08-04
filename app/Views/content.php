@@ -17,6 +17,7 @@
                         <table class="table table-hover tm-table-small tm-product-table">
                             <thead>
                                 <tr>
+                                    <th scope="col">&nbsp;</th>
                                     <th scope="col">WEBSITE NAME</th>
                                     <th scope="col">DATE CREATED</th>
                                 </tr>

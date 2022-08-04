@@ -1,5 +1,6 @@
 <?php foreach ($elementList as $key => $web) : ?>
     <tr>
+        <th scope="row"><input type="checkbox" /></th>
         <td><?= $web['contentName'] ?></td>
         <td><?= $web['contentValue'] ?></td>
         <td><?= date('F d, Y, H:i:s', strtotime($web['updated_at'])) ?></td>

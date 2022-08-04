@@ -1,5 +1,6 @@
 <?php foreach ($websiteList as $key => $web) : ?>
     <tr>
+        <th scope="row"><input type="checkbox" /></th>
         <td>
             <a href="<?= base_url('/element/' . $web['webKey']) ?>" style="color: white;">
                 <?= $web['webName'] ?>
