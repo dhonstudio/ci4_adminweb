@@ -5,7 +5,12 @@
 <body id="reportsPage">
     <?= $this->include('layouts/topbar'); ?>
 
-    <div class="container mt-5">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <p class="text-white"><a href="<?= base_url('content') ?>">Websites</a> / <a href="<?= base_url('page/' . $webKey) ?>"><?= $webName ?> Pages</a> / <?= $pageName ?> Elements</p>
+            </div>
+        </div>
         <div class="row tm-content-row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
                 <div class="tm-bg-primary-dark tm-block tm-block-products">

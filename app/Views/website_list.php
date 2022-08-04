@@ -2,7 +2,7 @@
     <tr>
         <th scope="row"><input type="checkbox" /></th>
         <td>
-            <a href="<?= base_url('/element/' . $web['webKey']) ?>" style="color: white;">
+            <a href="<?= base_url('/page/' . $web['webKey']) ?>" style="color: white;">
                 <?= $web['webName'] ?>
             </a>
         </td>

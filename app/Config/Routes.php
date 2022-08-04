@@ -45,9 +45,11 @@ $routes->get('/logout', 'Auth::logout');
 
 $routes->get('/', 'Home::index');
 $routes->get('/content', 'Home::content');
-$routes->get('/element/(:segment)', 'Home::element/$1');
+$routes->get('/page/(:segment)', 'Home::page/$1');
+$routes->get('/element/(:segment)/(:segment)', 'Home::element/$1/$2');
 
 $routes->get('/website_list', 'Home::website_list');
+$routes->get('/page_list/(:segment)', 'Home::page_list/$1');
 $routes->get('/element_list/(:segment)', 'Home::element_list/$1');
 
 $routes->post('/add_website', 'Content::add_website');

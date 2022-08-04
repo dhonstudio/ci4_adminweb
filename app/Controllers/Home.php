@@ -28,9 +28,14 @@ class Home extends BaseController
         $this->data['websiteList'] = $websiteList;
     }
 
-    private function _initElement($webKey)
+    private function _initPage($webKey)
     {
-        $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAllByKey?webKey={$webKey}&sort_by=id_content&sort_method=ASC")['data'];
+        $this->data['pageList'] = $this->dhonrequest->get("landingpagepage/getAllByKey?webKey={$webKey}&sort_by=pageName&sort_method=ASC")['data'];
+    }
+
+    private function _initElement($pageKey)
+    {
+        $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAllByKey?pageKey={$pageKey}&sort_by=id_content&sort_method=ASC")['data'];
     }
 
     public function content()
@@ -49,22 +54,47 @@ class Home extends BaseController
         return view('website_list', $this->data);
     }
 
-    public function element($webKey)
+    public function page($webKey)
     {
         $web = $this->dhonrequest->get("landingpageweb/getByKey?webKey={$webKey}")['data'];
 
         $this->data['page']     = 'Content';
-        $this->data['title']    = $web['webName'] . ' Element - ' . $this->data['title'];
+        $this->data['title']    = $web['webName'] . ' Pages - ' . $this->data['title'];
+        $this->data['webName']  = $web['webName'];
 
         $this->data['webKey']   = $webKey;
-        $this->_initElement($webKey);
+        $this->_initPage($webKey);
+
+        return $this->_isLogin() ? view('page', $this->data) : redirect()->to($this->auth_redirect);
+    }
+
+    public function page_list($webKey)
+    {
+        $this->_initPage($webKey);
+
+        return view('page_list', $this->data);
+    }
+
+    public function element($webKey, $pageKey)
+    {
+        $web    = $this->dhonrequest->get("landingpageweb/getByKey?webKey={$webKey}")['data'];
+        $page   = $this->dhonrequest->get("landingpagepage/getByKey?pageKey={$pageKey}")['data'];
+
+        $this->data['page']     = 'Content';
+        $this->data['title']    = $page['pageName'] . ' ' . $web['webName'] . ' Elements - ' . $this->data['title'];
+        $this->data['webName']  = $web['webName'];
+        $this->data['pageName'] = $page['pageName'];
+
+        $this->data['webKey']   = $webKey;
+        $this->data['pageKey']  = $pageKey;
+        $this->_initElement($pageKey);
 
         return $this->_isLogin() ? view('element', $this->data) : redirect()->to($this->auth_redirect);
     }
 
-    public function element_list($webKey)
+    public function element_list($pageKey)
     {
-        $this->_initElement($webKey);
+        $this->_initElement($pageKey);
 
         return view('element_list', $this->data);
     }
