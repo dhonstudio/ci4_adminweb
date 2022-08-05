@@ -13,13 +13,13 @@ class Home extends BaseController
         parent::initController($request, $response, $logger);
     }
 
-    public function index()
-    {
-        $this->data['page']     = 'Dashboard';
-        $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
+    // public function index()
+    // {
+    //     $this->data['page']     = 'Dashboard';
+    //     $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
 
-        return $this->_isLogin() ? view('home', $this->data) : redirect()->to($this->auth_redirect);
-    }
+    //     return $this->_isLogin() ? view('home', $this->data) : redirect()->to($this->auth_redirect);
+    // }
 
     private function _initWebsite()
     {
@@ -36,6 +36,15 @@ class Home extends BaseController
     private function _initElement($pageKey)
     {
         $this->data['elementList'] = $this->dhonrequest->get("landingpagecontent/getAllByKey?pageKey={$pageKey}&sort_by=id_content&sort_method=ASC")['data'];
+    }
+
+    public function index()
+    {
+        $this->data['page']     = 'Content';
+        $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
+        $this->_initWebsite();
+
+        return $this->_isLogin() ? view('content', $this->data) : redirect()->to($this->auth_redirect);
     }
 
     public function content()
