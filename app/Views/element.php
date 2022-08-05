@@ -16,6 +16,7 @@
                 <div class="tm-bg-primary-dark tm-block tm-block-products">
 
                     <?= $this->include('modals/add_element'); ?>
+                    <?= $this->include('modals/add_element_upload'); ?>
 
                     <div class="tm-product-table-container">
                         <table class="table table-hover tm-table-small tm-product-table">

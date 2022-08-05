@@ -158,6 +158,8 @@ abstract class BaseController extends Controller
 
         helper('text');
 
+        helper('form');
+
         $this->auth_redirect = base_url('auth');
 
         $this->_initLibraries([

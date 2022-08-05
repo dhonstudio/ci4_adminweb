@@ -50,7 +50,7 @@
                 data: serializedData,
                 success: function() {
                     $('#addContentModal').modal('hide');
-                    $("#elementList").load('<?= base_url() ?>' + "/element_list/" + '<?= $webKey ?>');
+                    $("#elementList").load('<?= base_url() ?>' + "/element_list/" + '<?= $pageKey ?>');
                 }
             });
         });

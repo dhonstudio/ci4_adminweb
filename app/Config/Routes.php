@@ -54,6 +54,8 @@ $routes->get('/element_list/(:segment)', 'Home::element_list/$1');
 
 $routes->post('/add_website', 'Content::add_website');
 $routes->post('/edit_content', 'Content::edit_content');
+$routes->post('/upload_content', 'Content::upload_content');
+$routes->get('/get_upload', 'Content::get_upload');
 
 /*
  * --------------------------------------------------------------------
