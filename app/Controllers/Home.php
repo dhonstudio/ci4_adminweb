@@ -15,10 +15,12 @@ class Home extends BaseController
 
     // public function index()
     // {
+    //     if (!$this->_isLogin()) return redirect()->to($this->auth_redirect);
+
     //     $this->data['page']     = 'Dashboard';
     //     $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
 
-    //     return $this->_isLogin() ? view('home', $this->data) : redirect()->to($this->auth_redirect);
+    //     return view('home', $this->data);
     // }
 
     private function _initWebsite()
@@ -40,20 +42,24 @@ class Home extends BaseController
 
     public function index()
     {
+        if (!$this->_isLogin()) return redirect()->to($this->auth_redirect);
+
         $this->data['page']     = 'Content';
         $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
         $this->_initWebsite();
 
-        return $this->_isLogin() ? view('content', $this->data) : redirect()->to($this->auth_redirect);
+        return view('content', $this->data);
     }
 
     public function content()
     {
+        if (!$this->_isLogin()) return redirect()->to($this->auth_redirect);
+
         $this->data['page']     = 'Content';
         $this->data['title']    = $this->data['page'] . ' - ' . $this->data['title'];
         $this->_initWebsite();
 
-        return $this->_isLogin() ? view('content', $this->data) : redirect()->to($this->auth_redirect);
+        return view('content', $this->data);
     }
 
     public function website_list()
@@ -65,6 +71,8 @@ class Home extends BaseController
 
     public function page($webKey)
     {
+        if (!$this->_isLogin()) return redirect()->to($this->auth_redirect);
+
         $web = $this->dhonrequest->get("landingpageweb/getByKey?webKey={$webKey}")['data'];
 
         $this->data['page']     = 'Content';
@@ -74,7 +82,7 @@ class Home extends BaseController
         $this->data['webKey']   = $webKey;
         $this->_initPage($webKey);
 
-        return $this->_isLogin() ? view('page', $this->data) : redirect()->to($this->auth_redirect);
+        return view('page', $this->data);
     }
 
     public function page_list($webKey)
@@ -86,6 +94,8 @@ class Home extends BaseController
 
     public function element($webKey, $pageKey)
     {
+        if (!$this->_isLogin()) return redirect()->to($this->auth_redirect);
+
         $web    = $this->dhonrequest->get("landingpageweb/getByKey?webKey={$webKey}")['data'];
         $page   = $this->dhonrequest->get("landingpagepage/getByKey?pageKey={$pageKey}")['data'];
 
@@ -98,7 +108,7 @@ class Home extends BaseController
         $this->data['pageKey']  = $pageKey;
         $this->_initElement($pageKey);
 
-        return $this->_isLogin() ? view('element', $this->data) : redirect()->to($this->auth_redirect);
+        return view('element', $this->data);
     }
 
     public function element_list($pageKey)
