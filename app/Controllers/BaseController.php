@@ -176,7 +176,7 @@ abstract class BaseController extends Controller
                 'author'        => null,
                 'generator'     => null,
                 'ogimage'       => $this->assets . 'img/ogimg.jpg',
-                'description'   => 'This landing page built base on Dhon Studio repository on Github.',
+                'description'   => 'The Web Admin built base on Dhon Studio repository on Github.',
             ],
             'favicon'   => $this->assets . "img/icon.ico",
             'title'     => 'Admin Web by Dhon Studio', // default is `Home`
