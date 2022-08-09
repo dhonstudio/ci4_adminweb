@@ -51,14 +51,14 @@ abstract class BaseController extends Controller
      *
      * @var string
      */
-    protected $git_assets = '/../../../assets/';
+    protected $git_assets = '/../../../../../assets/';
 
     /**
      * API URL.
      *
      * @var string
      */
-    protected $api_url = 'http://localhost/ci4_api2/';
+    protected $api_url = 'http://localhost/dev/ci4/api2/';
 
     /**
      * API auth if use basic auth.
