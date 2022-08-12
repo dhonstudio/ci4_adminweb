@@ -29,7 +29,7 @@ class Content extends BaseController
 
         $content = $this->dhonrequest->get("landingpagecontent/getAll")['data'][$key];
 
-        $this->dhonrequest->post('landingpagecontent/edit', [
+        return $this->dhonrequest->post('landingpagecontent/edit', [
             'id_content' => $content['id_content'],
             'pageKey' => $content['pageKey'],
             'contentName' => $content['contentName'],

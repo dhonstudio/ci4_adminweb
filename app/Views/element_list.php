@@ -5,7 +5,7 @@
         <td><?= $web['contentValue'] ?></td>
         <td><?= date('F d, Y, H:i:s', strtotime($web['updated_at'])) ?></td>
         <td>
-            <a href="#" data-key="<?= array_search($web['id_content'], array_column($elementList, 'id_content')) + 1 ?>" data-toggle="modal" data-target="<?= $web['contentType'] == 'img' ? "#addContentUploadModal" : "#addContentModal" ?>" class="tm-product-delete-link editContentButton" style="color: white;">
+            <a href="#" data-key="<?= array_search($web['id_content'], array_column($allElementList, 'id_content')) + 1 ?>" data-toggle="modal" data-target="<?= $web['contentType'] == 'img' ? "#addContentUploadModal" : "#addContentModal" ?>" class="tm-product-delete-link editContentButton" style="color: white;">
                 <i class="far fa-edit tm-product-delete-icon"></i>
             </a>
         </td>
@@ -17,7 +17,7 @@
         .click(function() {
             var key = $(this).data('key') - 1;
 
-            var data = <?= json_encode($elementList) ?>;
+            var data = <?= json_encode($allElementList) ?>;
 
             pageKey = data[key].pageKey;
             contentName = data[key].contentName;
